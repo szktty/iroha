@@ -1,0 +1,25 @@
+name: iroha
+description: Ayame library
+version: 2022.1.0
+homepage: https://github.com/szktty/iroha
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_webrtc: ^0.9.17
+  json_annotation: ^4.7.0
+  random_string: ^2.3.1
+  simple_logger: ^1.9.0+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  pedantic_mono: ^1.20.0
+  build_runner: ^2.3.2
+  freezed: ^2.2.1
+  json_serializable: ^6.5.4
