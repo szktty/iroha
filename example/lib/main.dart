@@ -83,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  void deactivate() {
-    super.deactivate();
+  void dispose() {
+    super.dispose();
     _disposeRenderers();
   }
 
@@ -123,7 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       ..onDisconnect = (error) async {
         _logger.info('disconnect => $error');
-        await _disposeRenderers();
         setState(() {
           _connected = false;
         });
@@ -144,7 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     // 接続
-    await _initRenderers();
     await conn.connect(stream: stream, metadataOption: metadataOption);
 
     setState(() {
@@ -155,7 +153,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _disconnect() async {
-    await _disposeRenderers();
     await _conn.disconnect();
     setState(() {
       _connected = false;
