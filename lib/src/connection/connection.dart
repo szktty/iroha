@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import './../logger.dart';
@@ -242,7 +243,7 @@ abstract class AyameConnectionBase {
     final pc = await createPeerConnection(_pcConfig);
 
     // audio track
-    final audioTrack = stream?.getAudioTracks().first;
+    final audioTrack = stream?.getAudioTracks().firstOrNull;
     if (audioTrack != null && options.audio.enabled) {
       switch (options.audio.direction) {
         case AyameDirection.sendonly:
@@ -256,28 +257,34 @@ abstract class AyameConnectionBase {
           );
           break;
       }
+    } else if (audioTrack == null) {
+      logger.info('audio track is not found');
     }
 
     // video track
-    final videoTrack = stream?.getVideoTracks().first;
-    switch (options.video.direction) {
-      case AyameDirection.sendonly:
-      case AyameDirection.sendrecv:
-        if (videoTrack != null) {
-          logger.info('add sender video track');
-          await pc.addTrack(videoTrack, stream!);
-        }
-        break;
-      case AyameDirection.recvonly:
-        if (options.video.enabled && videoTrack != null) {
-          await pc.addTransceiver(
-            track: videoTrack,
-            kind: RTCRtpMediaType.RTCRtpMediaTypeVideo,
-            init:
-                RTCRtpTransceiverInit(direction: TransceiverDirection.RecvOnly),
-          );
-        }
-        break;
+    final videoTrack = stream?.getVideoTracks().firstOrNull;
+    if (videoTrack != null) {
+      switch (options.video.direction) {
+        case AyameDirection.sendonly:
+        case AyameDirection.sendrecv:
+          if (videoTrack != null) {
+            logger.info('add sender video track');
+            await pc.addTrack(videoTrack, stream!);
+          }
+          break;
+        case AyameDirection.recvonly:
+          if (options.video.enabled && videoTrack != null) {
+            await pc.addTransceiver(
+              track: videoTrack,
+              kind: RTCRtpMediaType.RTCRtpMediaTypeVideo,
+              init: RTCRtpTransceiverInit(
+                  direction: TransceiverDirection.RecvOnly),
+            );
+          }
+          break;
+      }
+    } else {
+      logger.info('video track is not found');
     }
 
     _pc = pc
