@@ -4,23 +4,23 @@ version: 2022.1.0
 homepage: https://github.com/szktty/iroha
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.16.8"
 
 dependencies:
-  collection: ^1.17.0
+  collection: ^1.18.0
   flutter:
     sdk: flutter
-  flutter_webrtc: ^0.9.17
-  json_annotation: ^4.7.0
+  flutter_webrtc: ^0.9.48
+  json_annotation: ^4.8.1
   random_string: ^2.3.1
-  simple_logger: ^1.9.0+1
+  simple_logger: ^1.9.0+3
 
 dev_dependencies:
+  build_runner: ^2.4.8
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-  pedantic_mono: ^1.20.0
-  build_runner: ^2.3.2
-  freezed: ^2.2.1
-  json_serializable: ^6.5.4
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
+  very_good_analysis: ^5.1.0
