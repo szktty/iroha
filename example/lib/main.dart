@@ -48,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final _localRenderer = RTCVideoRenderer();
   final _remoteRenderer = RTCVideoRenderer();
-  bool _renderersInited = false;
   int _navigationIndex = 0;
+
   List<RTCVideoRenderer> get _renderers => [_localRenderer, _remoteRenderer];
 
   String _message = '⭐';
@@ -60,26 +60,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _initRenderers() async {
-    if (!_renderersInited) {
-      for (final renderer in _renderers) {
-        await renderer.initialize();
-      }
-      _logger.info('renderers initialized');
-      _renderersInited = true;
+    for (final renderer in _renderers) {
+      await renderer.initialize();
     }
+    _logger.info('renderers initialized');
   }
 
   Future<void> _disposeRenderers() async {
-    if (_renderersInited) {
-      _logger.info('dispose renderers');
-      for (final renderer in _renderers) {
-        if (renderer.textureId != null) {
-          renderer.srcObject = null;
-        }
-        await renderer.dispose();
+    _logger.info('dispose renderers');
+    for (final renderer in _renderers) {
+      if (renderer.textureId != null) {
+        renderer.srcObject = null;
       }
+      await renderer.dispose();
     }
-    _renderersInited = false;
   }
 
   @override
@@ -147,7 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _conn = conn;
-      _logger.info('renderer inited => $_renderersInited');
       _localRenderer.srcObject = stream;
     });
   }
