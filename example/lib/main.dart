@@ -69,9 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _disposeRenderers() async {
     _logger.info('dispose renderers');
     for (final renderer in _renderers) {
-      if (renderer.textureId != null) {
-        renderer.srcObject = null;
-      }
       await renderer.dispose();
     }
   }
