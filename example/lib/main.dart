@@ -55,8 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
   String _message = '⭐';
   final _receivedMessages = List<String>.empty(growable: true);
 
-  _MyHomePageState() {
+  @override
+  void initState() {
+    super.initState();
     _initRenderers();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    _disposeRenderers();
   }
 
   Future<void> _initRenderers() async {
@@ -71,12 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
     for (final renderer in _renderers) {
       await renderer.dispose();
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _disposeRenderers();
   }
 
   Future<void> _connect() async {
